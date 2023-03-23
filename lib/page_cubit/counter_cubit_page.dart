@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:counter_bloc/page_cubit/cubit/counter_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CubitPage extends StatelessWidget {
   const CubitPage({super.key});
@@ -15,9 +17,13 @@ class CubitPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              'Counter 10',
-              style: Theme.of(context).textTheme.headlineMedium,
+            BlocBuilder<CounterCubit, CounterState>(
+              builder: (context, state) {
+                return Text(
+                  'Counter ${state.counter}',
+                  style: Theme.of(context).textTheme.headlineMedium,
+                );
+              },
             ),
             SizedBox(
               height: 20,
@@ -26,12 +32,16 @@ class CubitPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<CounterCubit>().increment();
+                  },
                   icon: Icon(Icons.add),
                   label: Text(''),
                 ),
                 TextButton.icon(
-                  onPressed: () {},
+                  onPressed: () {
+                    context.read<CounterCubit>().decrement();
+                  },
                   icon: Icon(Icons.remove),
                   label: Text(''),
                 ),
